@@ -4,22 +4,21 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Dropdown, MenuProps, notification } from "antd";
-import React, { useEffect, useState } from "react";
+import { Badge, Dropdown, MenuProps, notification } from "antd";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import closeIcon from "../assets/images/close.png";
 import flagImage from "../assets/images/flag.png";
 import logoImage from "../assets/images/Logo.png";
 import menuIcon from "../assets/images/menu.png";
 import { logout } from "../redux/slice/userSlice";
 import { RootState } from "../redux/store/Store";
 import InputSearch from "./InputSeach";
+import ModalMenu from "./ModalMenu";
 import Navbar from "./Navbar";
 
 const Header: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
-  const usernameLocalStorage = localStorage.getItem("username");
+  const [showModal, setShowModal] = useState(false); // modal in mobile mode
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -27,6 +26,7 @@ const Header: React.FC = () => {
   const dispatch = useDispatch();
 
   const username = useSelector((state: RootState) => state.user.username);
+  const usernameLocalStorage = localStorage.getItem("username");
 
   const warning = () => {
     api.open({
@@ -112,14 +112,19 @@ const Header: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="container mx-auto my-[25px] flex cursor-pointer items-center justify-between">
-        <div onClick={() => navigate("/")}>
+      <div className="container mx-auto my-[25px] flex items-center justify-between gap-5">
+        <div className="cursor-pointer" onClick={() => navigate("/")}>
           <img src={logoImage} />
         </div>
-        <InputSearch />
         <div className="flex gap-6">
+          <InputSearch />
           <div className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-mainColor text-mainColor">
-            <Dropdown menu={{ items }} placement="bottomRight" arrow>
+            <Dropdown
+              menu={{ items }}
+              placement="bottomRight"
+              arrow
+              trigger={["click"]}
+            >
               <FontAwesomeIcon
                 icon={faUser}
                 className="p-4"
@@ -127,9 +132,11 @@ const Header: React.FC = () => {
               />
             </Dropdown>
           </div>
-          <div className="flex h-10 w-10 items-center justify-center rounded-full border border-mainColor text-mainColor">
-            <FontAwesomeIcon icon={faCartShopping} />
-          </div>
+          <Badge count={5} offset={[-5, 5]}>
+            <div className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-mainColor text-mainColor">
+              <FontAwesomeIcon icon={faCartShopping} />
+            </div>
+          </Badge>
           <div
             className="flex items-center justify-center md:hidden"
             onClick={() => setShowModal(true)}
@@ -139,23 +146,8 @@ const Header: React.FC = () => {
         </div>
       </div>
       <Navbar />
-      {/* Modal */}
-      <div
-        className={`fixed right-0 top-0 z-50 h-full w-full bg-white shadow-lg transition-transform duration-300 ${
-          showModal ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        {/* Close button */}
-        <button
-          className="absolute right-4 top-4"
-          onClick={() => setShowModal(false)}
-        >
-          <img src={closeIcon} />
-        </button>
-
-        {/* Content of the modal */}
-        <div className="p-4">Content</div>
-      </div>
+      {/* Modal in mobile */}
+      <ModalMenu showModal={showModal} setShowModal={setShowModal} />
     </>
   );
 };

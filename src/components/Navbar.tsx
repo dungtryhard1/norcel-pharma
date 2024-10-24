@@ -1,21 +1,37 @@
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="bg-[#ECF1F6] font-mainFont hidden md:block">
-        <div className="container mx-auto flex text-mainColor text-sm font-medium whitespace-nowrap justify-between">
-            <div className="py-4"><FontAwesomeIcon icon={faBars} /></div>
-            <div className="py-4"><span>Home</span></div>
-            <div className="py-4"><span>About us</span></div>
-            <div className="py-4"><span>Products</span></div>
-            <div className="py-4"><span>News & research</span></div>
-            <div className="py-4"><span>Tips & advice</span></div>
-            <div className="py-4"><span>Partners and Franchise </span></div>
-            <div className="py-4"><span>Contact us</span></div>
+    <div className="hidden bg-[#ECF1F6] font-mainFont md:block">
+      <div className="container mx-auto mt-8 py-4 whitespace-nowrap text-sm font-medium text-mainColor">
+        <div>
+          <ul className="flex cursor-pointer justify-between">
+            <li>
+              <Link className="p-4" to="/">Home</Link>
+            </li>
+            <li>
+              <Link className="p-4" to="/about">About Us</Link>
+            </li>
+            <li>
+              <Link className="p-4" to="/products">Products</Link>
+            </li>
+            <li>
+              <Link className="p-4" to="/news">News & Research</Link>
+            </li>
+            <li>
+              <Link className="p-4" to="/tips">Tips & Advice</Link>
+            </li>
+            <li>
+              <Link className="p-4" to="/partners">Partners and Franchise</Link>
+            </li>
+            <li>
+              <Link className="p-4" to="/contact">Contact Us</Link>
+            </li>
+          </ul>
         </div>
+      </div>
     </div>
-  )
+  );
 };
 
 export default Navbar;
