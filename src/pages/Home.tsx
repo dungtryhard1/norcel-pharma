@@ -1,4 +1,6 @@
 import posterImage from "../assets/images/poster.png";
+import Footer from "../components/Footer";
+import RecommendedProducts from "../components/RecommendedProducts";
 
 const Home = () => {
   return (
@@ -37,6 +39,8 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <RecommendedProducts />
+      <Footer />
     </>
   );
 };

@@ -14,8 +14,8 @@ import menuIcon from "../assets/images/menu.png";
 import { logout } from "../redux/slice/userSlice";
 import { RootState } from "../redux/store/Store";
 import InputSearch from "./InputSeach";
-import Navbar from "./Navbar";
 import ModalMenu from "./ModalMenu";
+import Navbar from "./Navbar";
 
 const Header: React.FC = () => {
   const [showModal, setShowModal] = useState(false); // modal in mobile mode

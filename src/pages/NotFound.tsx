@@ -1,10 +1,16 @@
+import Footer from "../components/Footer"
+import notFoundImage from "../assets/images/No Data Found.png";
+
 
 const NotFound = () => {
   return (
-    <div className="container mx-auto text-center text-5xl text-mainColor mt-5">
-      <p>Not Found</p>
+    <>
+    <div className="flex justify-center my-28">
+      <img src={notFoundImage} alt="" />
     </div>
+    <Footer />
+    </>
   )
 }
 
-export default NotFound
+export default NotFound;
