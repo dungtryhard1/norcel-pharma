@@ -1,30 +1,94 @@
-import React, { useState } from "react";
-import InputSearch from "./InputSeach";
-import Navbar from "./Navbar";
-import flagImage from "../assets/images/flag.png";
-import logoImage from "../assets/images/Logo.png";
-import menuIcon from "../assets/images/menu.png";
-import closeIcon from "../assets/images/close.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
   faCartShopping,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { RootState } from "@reduxjs/toolkit/query";
-import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Dropdown, MenuProps, notification } from "antd";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import closeIcon from "../assets/images/close.png";
+import flagImage from "../assets/images/flag.png";
+import logoImage from "../assets/images/Logo.png";
+import menuIcon from "../assets/images/menu.png";
+import { logout } from "../redux/slice/userSlice";
+import { RootState } from "../redux/store/Store";
+import InputSearch from "./InputSeach";
+import Navbar from "./Navbar";
 
 const Header: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate(); // Khởi tạo navigate
+  const usernameLocalStorage = localStorage.getItem("username");
+
+  const [api, contextHolder] = notification.useNotification();
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const username = useSelector((state: RootState) => state.user.username);
 
-  const usernameLocalStorage = localStorage.getItem("username");
+  const warning = () => {
+    api.open({
+      type: "warning",
+      message: "You are logged out!",
+      showProgress: true,
+      duration: 5,
+    });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("username"); // Xóa username khỏi localStorage
+    localStorage.removeItem("password");
+    dispatch(logout());
+    warning();
+  };
+
+  const handleLogin = (e: any) => {
+    if (username || usernameLocalStorage) {
+      e.preventDefault();
+    } else {
+      navigate("/login");
+    }
+  };
+
+  //handle update tabs
+  window.addEventListener("storage", () => {
+    window.location.reload();
+  });
+
+  const items: MenuProps["items"] =
+    username || usernameLocalStorage
+      ? [
+          {
+            key: "1",
+            label: (
+              <Link
+                className="min-w-28 py-1 font-medium text-mainColor"
+                to="/profile"
+              >
+                Profile
+              </Link>
+            ),
+          },
+          {
+            key: "2",
+            label: (
+              <Link
+                className="min-w-28 py-1 font-medium text-mainColor"
+                to="/"
+                onClick={handleLogout}
+              >
+                Log out
+              </Link>
+            ),
+          },
+        ]
+      : [];
 
   return (
     <>
+      {contextHolder}
       <div className="bg-mainColor font-mainFont text-white">
         <div className="container mx-auto flex h-10 items-center gap-5">
           <marquee className="p-2.5 py-[7px] leading-[15px] md:w-full">
@@ -36,7 +100,9 @@ const Header: React.FC = () => {
               <span>Up to 20% off Brands of the Week</span>
             </span>
           </marquee>
-          <div>{username || usernameLocalStorage}</div>
+          <p className="whitespace-nowrap">
+            {username || usernameLocalStorage || "You are not logged in"}
+          </p>
           <div className="hidden items-center gap-2 md:flex">
             <div className="h-4 w-4">
               <img src={flagImage} />
@@ -52,11 +118,14 @@ const Header: React.FC = () => {
         </div>
         <InputSearch />
         <div className="flex gap-6">
-          <div
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-mainColor text-mainColor"
-            onClick={() => navigate("/login")}
-          >
-            <FontAwesomeIcon icon={faUser} />
+          <div className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-mainColor text-mainColor">
+            <Dropdown menu={{ items }} placement="bottomRight" arrow>
+              <FontAwesomeIcon
+                icon={faUser}
+                className="p-4"
+                onClick={handleLogin}
+              />
+            </Dropdown>
           </div>
           <div className="flex h-10 w-10 items-center justify-center rounded-full border border-mainColor text-mainColor">
             <FontAwesomeIcon icon={faCartShopping} />

@@ -9,15 +9,18 @@ const initialState: UserState = {
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: 'user', // trong dự án lớn dùng biến
   initialState,
   reducers: {
     setUsernameRedux(state, action: PayloadAction<string>) {
       state.username = action.payload;
     },
+    logout(state) {
+      state.username = null;
+    },
   },
 });
 
-export const { setUsernameRedux } = userSlice.actions;
+export const { setUsernameRedux, logout } = userSlice.actions;
 
 export default userSlice.reducer;

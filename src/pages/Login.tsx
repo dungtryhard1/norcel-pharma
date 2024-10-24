@@ -1,18 +1,21 @@
-import React, { useState } from "react";
-import { Input } from "antd";
-import "../scss/components/loginModal.scss";
-import Button from "../components/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Input, notification } from "antd";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
+import withAuth from "../HOC/withAuth";
 import { setUsernameRedux } from "../redux/slice/userSlice";
+import "../scss/components/loginModal.scss";
 
-const Login: React.FC = () => {
+const Login = () => {
   const [rememberMe, setRememberMe] = useState(false); // remember password
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [api, contextHolder] = notification.useNotification();
 
   const navigate = useNavigate();
 
@@ -22,9 +25,51 @@ const Login: React.FC = () => {
     setRememberMe(!rememberMe);
   };
 
+  const success = () => {
+    api.open({
+      type: "success",
+      message: "Login successfully",
+      duration: 5,
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    setLoading(true);
     e.preventDefault();
+
+    const hasLetter = /[a-zA-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+
+    // Validation: Kiểm tra nếu username hoặc password trống
+    if (username.trim() === "" || password.trim() === "") {
+      api.error({
+        message: "Please enter both username and password!",
+        showProgress: true,
+        duration: 3,
+      });
+      return;
+    }
+
+    // Validation: Kiểm tra nếu username hoặc password quá 50 ký tự
+    if (password.length > 50) {
+      api.error({
+        message: "Username and password must not exceed 50 characters.",
+        showProgress: true,
+        duration: 3,
+      });
+      return;
+    }
+
+    // validation: có cả chữ và số
+    if (!hasLetter || !hasNumber) {
+      api.error({
+        message: "Password must contain at least one letter and one number.",
+        showProgress: true,
+        duration: 3,
+      });
+      return;
+    }
+
+    setLoading(true);
     dispatch(setUsernameRedux(username));
 
     if (rememberMe) {
@@ -32,21 +77,21 @@ const Login: React.FC = () => {
       localStorage.setItem("password", password);
     }
 
-    console.log("check", localStorage.getItem("username"));
-
     //reset form
     setUsername("");
     setPassword("");
     setRememberMe(false);
+    success();
 
     setTimeout(() => {
       setLoading(false);
       navigate("/");
-    }, 500);
+    }, 1500);
   };
 
   return (
-    <div className="container mx-auto mt-10 rounded-md border border-mainColor p-5">
+    <div className="container mx-auto mt-10 rounded-md p-5 shadow-2xl">
+      {contextHolder}
       <p className="pb-6 text-center font-titleFont text-[40px]">Login</p>
       <form action="" onSubmit={handleSubmit}>
         <div>
@@ -108,8 +153,11 @@ const Login: React.FC = () => {
           </p>
         </div>
         <div className="py-6">
-          <Button type="submit" className={`bg-mainColor text-base text-white ${loading ? "opacity-70" : ""}`}>
-            Login {loading && <FontAwesomeIcon icon={faSpinner} />}
+          <Button
+            type="submit"
+            className={`bg-mainColor text-base text-white ${loading ? "opacity-70" : ""}`}
+          >
+            Login {loading && <FontAwesomeIcon icon={faSpinner} spin />}
           </Button>
         </div>
       </form>
@@ -121,4 +169,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default withAuth(Login);
