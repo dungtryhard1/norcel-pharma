@@ -16,9 +16,11 @@ import { RootState } from "../redux/store/Store";
 import InputSearch from "./InputSeach";
 import ModalMenu from "./ModalMenu";
 import Navbar from "./Navbar";
+import ShoppingCart from "./ShoppingCart";
 
 const Header: React.FC = () => {
-  const [showModal, setShowModal] = useState(false); // modal in mobile mode
+  const [showModal, setShowModal] = useState(false); // menu modal in mobile mode
+  const [showModalCart, setShowModalCart] = useState(false); // menu modal in mobile mode
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -133,7 +135,10 @@ const Header: React.FC = () => {
             </Dropdown>
           </div>
           <Badge count={5} offset={[-5, 5]}>
-            <div className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-mainColor text-mainColor">
+            <div
+              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-mainColor text-mainColor"
+              onClick={() => setShowModalCart(true)}
+            >
               <FontAwesomeIcon icon={faCartShopping} />
             </div>
           </Badge>
@@ -146,8 +151,13 @@ const Header: React.FC = () => {
         </div>
       </div>
       <Navbar />
-      {/* Modal in mobile */}
+      {/* Modal menu in mobile */}
       <ModalMenu showModal={showModal} setShowModal={setShowModal} />
+      {/* Modal shopping cart */}
+      <ShoppingCart
+        showModalCart={showModalCart}
+        setShowModalCart={setShowModalCart}
+      />
     </>
   );
 };

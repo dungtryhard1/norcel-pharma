@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import withAuth from "../HOC/withAuth";
 import { setUsernameRedux } from "../redux/slice/userSlice";
-import "../scss/components/loginModal.scss";
 
 const Login = () => {
   const [rememberMe, setRememberMe] = useState(false); // remember password

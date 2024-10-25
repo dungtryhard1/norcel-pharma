@@ -1,7 +1,6 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Footer: React.FC = () => {
+const Footer = () => {
   const navigate = useNavigate();
   return (
     <footer className="container mx-auto mt-12 font-mainFont text-sm font-medium">

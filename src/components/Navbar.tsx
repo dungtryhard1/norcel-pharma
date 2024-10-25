@@ -19,9 +19,6 @@ const Navbar = () => {
               <Link className="p-4" to="/news">News & Research</Link>
             </li>
             <li>
-              <Link className="p-4" to="/tips">Tips & Advice</Link>
-            </li>
-            <li>
               <Link className="p-4" to="/partners">Partners and Franchise</Link>
             </li>
             <li>

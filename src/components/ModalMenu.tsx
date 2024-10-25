@@ -9,6 +9,7 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store/Store";
+import "../scss/components/modal.scss"
 
 interface ModalMenuProps {
   showModal: boolean;
@@ -57,7 +58,7 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ showModal, setShowModal }) => {
 
   return (
     <div
-      className={`modal-content fixed right-0 top-0 z-50 w-full bg-white font-mainFont shadow-lg transition-transform duration-300 ${
+      className={`modal-content fixed min-h-screen right-0 top-0 z-50 w-full bg-white font-mainFont shadow-lg transition-transform duration-300 ${
         showModal ? "translate-x-0" : "translate-x-full"
       }`}
     >
@@ -81,7 +82,6 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ showModal, setShowModal }) => {
             "/about",
             "/products",
             "/news",
-            "/tips",
             "/partners",
             "/contact",
           ].map((path) => (

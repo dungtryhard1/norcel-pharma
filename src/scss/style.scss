@@ -1,4 +1,5 @@
-@import "./components/modalMenu.scss";
+@import "./components/modal.scss";
+@import "./components/RecommendedProducts.scss";
 
 * {
   padding: 0;
@@ -8,6 +9,10 @@
 
 .scroll-auto {
   scroll-behavior: auto;
+}
+
+img {
+  max-width: 100%;
 }
 
 @media (max-width: 640px) {

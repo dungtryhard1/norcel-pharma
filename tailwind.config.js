@@ -5,15 +5,18 @@ module.exports = {
     extend: {
       colors: {
         mainColor: "#00205B",
+        secondColor: "#BA0C2F",
       },
       fontFamily: {
         mainFont: ['"Plus Jakarta Sans"', "sans-serif"],
         titleFont: ["Anton", "sans-serif"],
       },
-      aspectRatio: {
-        '2.4': '2.4 / 1', 
+      height: {
+        'calc-100vh-minus-267': 'calc(100vh - 267px)',
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ],
 };
