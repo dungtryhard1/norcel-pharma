@@ -17,10 +17,10 @@ import InputSearch from "./InputSeach";
 import ModalMenu from "./ModalMenu";
 import Navbar from "./Navbar";
 import ShoppingCart from "./ShoppingCart";
+import { openCartModal } from "../redux/slice/cartSlice";
 
 const Header: React.FC = () => {
   const [showModal, setShowModal] = useState(false); // menu modal in mobile mode
-  const [showModalCart, setShowModalCart] = useState(false); // menu modal in mobile mode
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -137,7 +137,7 @@ const Header: React.FC = () => {
           <Badge count={5} offset={[-5, 5]}>
             <div
               className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-mainColor text-mainColor"
-              onClick={() => setShowModalCart(true)}
+              onClick={() => dispatch(openCartModal())}
             >
               <FontAwesomeIcon icon={faCartShopping} />
             </div>
@@ -154,10 +154,7 @@ const Header: React.FC = () => {
       {/* Modal menu in mobile */}
       <ModalMenu showModal={showModal} setShowModal={setShowModal} />
       {/* Modal shopping cart */}
-      <ShoppingCart
-        showModalCart={showModalCart}
-        setShowModalCart={setShowModalCart}
-      />
+      <ShoppingCart />
     </>
   );
 };

@@ -32,3 +32,4 @@ const withAuth = (WrappedComponent: React.FC) => {
 };
 
 export default withAuth;
+
