@@ -7,9 +7,14 @@ import { InputNumber } from "antd";
 interface NumberInputProps {
   inputValue: number;
   cartItem: CartItem;
+  setLoading: (loading: boolean) => void;
 }
 
-const NumberInput: React.FC<NumberInputProps> = ({ inputValue, cartItem }) => {
+const NumberInput: React.FC<NumberInputProps> = ({
+  inputValue,
+  cartItem,
+  setLoading,
+}) => {
   const [value, setValue] = useState<number>(0);
 
   const dispatch = useDispatch();
@@ -20,14 +25,22 @@ const NumberInput: React.FC<NumberInputProps> = ({ inputValue, cartItem }) => {
 
   const handleIncrement = (value: number) => {
     if (value < 99) {
-      setValue((prev) => prev + 1);
-      dispatch(addToCart(cartItem));
+      setLoading(true);
+      setTimeout(() => {
+        setValue((prev) => prev + 1);
+        dispatch(addToCart(cartItem));
+        setLoading(false);
+      }, 200);
     }
   };
 
   const handleDecrement = () => {
-    setValue((prev) => prev - 1);
-    dispatch(decreaseCart(cartItem));
+    setLoading(true);
+    setTimeout(() => {
+      setValue((prev) => prev - 1);
+      dispatch(decreaseCart(cartItem));
+      setLoading(false);
+    }, 200);
   };
 
   const handleChange = (newValue: number | null) => {
@@ -50,7 +63,7 @@ const NumberInput: React.FC<NumberInputProps> = ({ inputValue, cartItem }) => {
   return (
     <div className="flex items-center rounded-md">
       <button
-         className={`rounded-l-md border border-[#9CA4AB] px-3 py-1 ${value <= 1 ? "cursor-not-allowed" : "hover:bg-gray-300"}`}
+        className={`rounded-l-md border border-[#9CA4AB] px-3 py-1 ${value <= 1 ? "cursor-not-allowed" : "hover:bg-gray-300"}`}
         onClick={handleDecrement}
         disabled={value <= 1}
       >
@@ -61,7 +74,7 @@ const NumberInput: React.FC<NumberInputProps> = ({ inputValue, cartItem }) => {
         max={99}
         value={value}
         onChange={handleChange}
-        className="h-full w-10 rounded-none border-b border-t border-[#9CA4AB] p-[1px] text-center outline-none"
+        className="w-10 rounded-none border-b border-t border-[#9CA4AB] p-[1px] text-center outline-none"
       />
       <button
         className={`rounded-r-md border border-[#9CA4AB] px-3 py-1 ${value >= 99 ? "cursor-not-allowed" : "hover:bg-gray-300"}`}

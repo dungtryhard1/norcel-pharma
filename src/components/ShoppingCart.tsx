@@ -95,7 +95,7 @@ const ShoppingCart = () => {
                   return (
                     <div
                       key={item.id}
-                      className="relative flex justify-start gap-6"
+                      className="relative flex gap-6"
                     >
                       <div
                         className="absolute right-[-14px] h-6 w-6 cursor-pointer rounded-full bg-[#878690] p-1"
@@ -103,7 +103,7 @@ const ShoppingCart = () => {
                       >
                         <img src={closeImage} className="invert" />
                       </div>
-                      <div className="basis-1/5 border border-[#F6F6F6]">
+                      <div className="flex-shrink-0 basis-1/5 border border-[#F6F6F6]">
                         <img src={item.imageUrl} alt={item.name} />
                       </div>
                       <div className="flex flex-col gap-6">
@@ -112,6 +112,7 @@ const ShoppingCart = () => {
                           <NumberInput
                             inputValue={item.cartQuantity}
                             cartItem={item}
+                            setLoading={setLoading} 
                           />
                           <p className="font-bold text-secondColor">
                             {item.salePrice} -kr
@@ -130,7 +131,7 @@ const ShoppingCart = () => {
               </div>
               <p className="my-8">Empty Cart ...</p>
               <Button
-                className="w-60 bg-mainColor text-white"
+                className="w-52 bg-mainColor text-white"
                 onClick={handleBuyNow}
               >
                 Buy Now

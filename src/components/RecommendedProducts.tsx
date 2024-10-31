@@ -9,7 +9,6 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const RecommendedProducts: React.FC = () => {
   const [isLoadingAddProduct, setisLoadingAddProduct] = useState(false);
-  console.log("checkkkk", isLoadingAddProduct);
 
   const { items: products } = useSelector((state: RootState) => state.products);
 

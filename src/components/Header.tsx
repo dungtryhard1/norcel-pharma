@@ -27,6 +27,10 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const cartTotalQuantity = useSelector(
+    (state: RootState) => state.cart.cartTotalQuantity,
+  );
+
   const username = useSelector((state: RootState) => state.user.username);
   const usernameLocalStorage = localStorage.getItem("username");
 
@@ -134,7 +138,7 @@ const Header: React.FC = () => {
               />
             </Dropdown>
           </div>
-          <Badge count={5} offset={[-5, 5]}>
+          <Badge count={cartTotalQuantity} offset={[-5, 5]}>
             <div
               className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-mainColor text-mainColor"
               onClick={() => dispatch(openCartModal())}
